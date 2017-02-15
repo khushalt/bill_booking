@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include bill_booking_application *.css
+recursive-include bill_booking_application *.csv
+recursive-include bill_booking_application *.html
+recursive-include bill_booking_application *.ico
+recursive-include bill_booking_application *.js
+recursive-include bill_booking_application *.json
+recursive-include bill_booking_application *.md
+recursive-include bill_booking_application *.png
+recursive-include bill_booking_application *.py
+recursive-include bill_booking_application *.svg
+recursive-include bill_booking_application *.txt
+recursive-exclude bill_booking_application *.pyc

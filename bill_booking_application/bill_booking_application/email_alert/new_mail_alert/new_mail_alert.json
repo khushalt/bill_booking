@@ -1,0 +1,27 @@
+{
+ "attach_print": 0, 
+ "condition": "doc.reminder==1", 
+ "creation": "2017-02-07 16:04:51.312316", 
+ "date_changed": "due_date", 
+ "days_in_advance": 5, 
+ "docstatus": 0, 
+ "doctype": "Email Alert", 
+ "document_type": "Book Bill", 
+ "enabled": 1, 
+ "event": "Save", 
+ "idx": 0, 
+ "is_standard": 1, 
+ "message": "Add your message here", 
+ "modified": "2017-02-07 16:57:50.827331", 
+ "modified_by": "Administrator", 
+ "module": "Bill Booking Application", 
+ "name": "New Mail Alert", 
+ "owner": "Administrator", 
+ "recipients": [
+  {
+   "cc": "", 
+   "email_by_document_field": "approver"
+  }
+ ], 
+ "subject": "{{ doc.vendor_name}}"
+}
