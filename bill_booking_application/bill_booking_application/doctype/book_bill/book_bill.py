@@ -43,3 +43,6 @@ class BookBill(Document):
 		print"######################################KHUSHAL",self.workflow_state
 		pass
 
+	def on_submit(self):
+		if self.balance_amount>0:
+			frappe.throw(_("Only Leave Applications with status 'Approved' can be submitted"))

@@ -5,7 +5,18 @@ frappe.ui.form.on('Book Bill', {
 	validate: function(frm,cdt,cdn){
 
 		var bill_amnt=frm.doc.bill_amount
+		var final_amount=0
 		frm.set_value("grand_bill_total",bill_amnt)
+		console.log("khuuhhkjkhkj")
+		if(frm.doc.payments && frm.doc.workflow_state=="Approved by Finance Manager"){
+			$.each(frm.doc.payments,function(i,v){
+				if(!v.stat){
+					v.stat="Approved by Finance Manager"
+					// final_amount+=final_amount+v.payment*1
+				}
+			})
+		}
+		// 	frm.set_value("total",final_amount)
 	},
 
 	refresh: function(frm) {
