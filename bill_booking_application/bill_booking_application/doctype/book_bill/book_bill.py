@@ -16,7 +16,7 @@ class BookBill(Document):
 	def validate(self):
 		users=get_enabled_system_users()
 		roles=get_roles("khushal.t@indictranstech.com")
-		print"$$$$$$$$$$$$$$$$$$$$$$$$$$$$",users
+		
 	 	
 		
 	def on_submit(self):
