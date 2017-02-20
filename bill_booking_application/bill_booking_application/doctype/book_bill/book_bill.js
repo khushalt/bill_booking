@@ -2,22 +2,22 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Book Bill', {
-	validate: function(frm,cdt,cdn){
+	// validate: function(frm,cdt,cdn){
 
-		var bill_amnt=frm.doc.bill_amount
-		var final_amount=0
-		frm.set_value("grand_bill_total",bill_amnt)
-		console.log("khuuhhkjkhkj")
-		if(frm.doc.payments && frm.doc.workflow_state=="Approved by Finance Manager"){
-			$.each(frm.doc.payments,function(i,v){
-				if(!v.stat){
-					v.stat="Approved by Finance Manager"
-					// final_amount+=final_amount+v.payment*1
-				}
-			})
-		}
-		// 	frm.set_value("total",final_amount)
-	},
+	// 	var bill_amnt=frm.doc.bill_amount
+	// 	var final_amount=0
+	// 	frm.set_value("grand_bill_total",bill_amnt)
+	// 	console.log("khuuhhkjkhkj")
+	// 	if(frm.doc.payments && frm.doc.workflow_state=="Approved by Finance Manager"){
+	// 		$.each(frm.doc.payments,function(i,v){
+	// 			if(!v.stat){
+	// 				v.stat="Approved by Finance Manager"
+	// 				// final_amount+=final_amount+v.payment*1
+	// 			}
+	// 		})
+	// 	}
+	// 	// 	frm.set_value("total",final_amount)
+	// },
 
 	refresh: function(frm) {
 			if(frm.doc.payments){
@@ -35,6 +35,10 @@ frappe.ui.form.on('Book Bill', {
 					frm.set_value("balance_amount","0")
 					refresh_field("balance_amount");
 					console.log("BHAI AAJ HO JA TAYARTU")
+				}
+				if(frm.doc.balance_amount){
+					var bllamnt=frm.doc.bill_amount
+					frm.set_value("lance",frm.doc.balance_amount)
 				}
 				frm.refresh_fields();
 		}
@@ -102,6 +106,7 @@ frappe.ui.form.on('Book Bill', {
 		frm.set_value("payable_amount","")
 		return false;
 	}
-}
+	}
+
 
 });

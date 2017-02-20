@@ -4,6 +4,9 @@
 
 from __future__ import unicode_literals
 from frappe.utils import nowdate
+from frappe.utils.user import UserPermissions
+from frappe import *
+from frappe.utils import user
 import frappe
 from frappe import _
 from frappe.model.document import Document
@@ -11,38 +14,11 @@ class InvalidLeaveApproverError(frappe.ValidationError): pass
 
 class BookBill(Document):
 	def validate(self):
-	 	#if not self.get("__islocal"):
-		print"########################################"
-		#self.validate_leave_approver()
+		users=get_enabled_system_users()
+		roles=get_roles("khushal.t@indictranstech.com")
+		print"$$$$$$$$$$$$$$$$$$$$$$$$$$$$",users
+	 	
 		
-	# def validate_leave_approver(self):
-	# 	print "################### APPROVER",self.approver,"Session User",frappe.session.user
-	# 	print"##############################STATUS",self.docstatus
-	# 	if(self.reminder):
-	# 		self.send_email()
-
-		
-
-	# def on_submit(self):
-
-	# 	if(self.approver==frappe.session.user):
-	# 		print"@@@@@@@@@@@USER ARE THE SAME"
-	# 	else:
-	# 		frappe.throw(_("you dont have enough permissions to approve this document"))
-		
-	# 	if self.status != "Approved":
-	# 		frappe.throw(_("Only Leave Applications with status 'Approved' can be submitted"))
-
-	
-	# def send_email(self):
-	# 	current_date=frappe.utils.nowdate()
-	# 	if(current_date==self.reminder):
-	# 		print"#########################MAIL ID",self.reminder
-	# 		#frappe.sendmail(recipients=self.approver, sender=None, subject=self.bill_details,message="as cool as i am")
-	def on_update(self):
-		print"######################################KHUSHAL",self.workflow_state
-		pass
-
 	def on_submit(self):
 		if self.balance_amount>0:
 			frappe.throw(_("Only Leave Applications with status 'Approved' can be submitted"))

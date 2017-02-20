@@ -17,6 +17,7 @@ def get_data(filters):
 										invoice_no,
 										booking_date,
 										bill_amount,
+										total,
 										bill_details,
 										balance_amount 
 									from `tabBook Bill` 
@@ -37,7 +38,8 @@ def get_colums():
 	columns = [("Vendor Entry") + ":Link/Supplier:100"] +\
 			  [("Invoice No") + ":Data:100"] + \
 			  [("Booking Date") + ":Date:100"] + \
-			  [("Bill Amount") + ":Data:100"] + \
+			  [("Bill Amount") + ":Currency:100"] + \
+			  [("Total Paid Amount") + ":Currency:100"] + \
 			  [("Bill Details") + ":Data:500"] + \
 			  [("Balance") + ":Currency:120"] 
 	return columns	
