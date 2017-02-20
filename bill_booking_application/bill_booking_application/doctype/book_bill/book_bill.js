@@ -3,33 +3,32 @@
 
 frappe.ui.form.on('Book Bill', {
 	validate: function(frm,cdt,cdn){
+
 		var bill_amnt=frm.doc.bill_amount
 		frm.set_value("grand_bill_total",bill_amnt)
-		var fnl_ttl=0
-		$.each(cur_frm.doc.payments, function(i, d){
-			fnl_ttl=fnl_ttl+d.payment*1
-			}  )
-		frm.set_value("total",fnl_ttl) 
-		frm.refresh_fields();
-		if(!frm.doc.__islocal && frm.doc.workflow_state=='Rejected' && frappe.session.user=='Administrator'){
-			var temp="Draft"
-		 	frm.set_value("workflow_state",temp) 
-		}
-		if(!frm.doc.__islocal && frm.doc.workflow_state=='Approved by Finance Manager' && frappe.session.user=='Administrator'){
-			var temp="Draft"
-		 	frm.set_value("workflow_state",temp) 
-		}
-		
-		console.log("SECOND CONDITION",frm.doc.workflow_state=='Draft' && frappe.session.user=="khushal.t@indictranstech.com" )
-		if(!frm.doc.__islocal && frm.doc.workflow_state=='Draft' && frappe.session.user=="khushal.t@indictranstech.com" ){
-			var temp1="Approved by Finance Manager"
-			frm.set_value("workflow_state",temp1) 
-		}
-    },
+	},
 
 	refresh: function(frm) {
-
+			if(frm.doc.payments){
+				console.log("HHHHHHHHHHHHH")
+				var fnl_ttl=0
+				$.each(cur_frm.doc.payments, function(i, d){
+					fnl_ttl=fnl_ttl+d.payment*1
+				} )
+				frm.set_value("total",fnl_ttl)
+				var grnd_ttl=frm.doc.bill_amount
+				var total_=grnd_ttl-fnl_ttl
+				console.log("BALANCE AND AMOUNT",fnl_ttl,"grand total",grnd_ttl)
+				frm.set_value("balance_amount",total_)
+				if(frm.doc.total==grnd_ttl){
+					frm.set_value("balance_amount","0")
+					refresh_field("balance_amount");
+					console.log("BHAI AAJ HO JA TAYARTU")
+				}
+				frm.refresh_fields();
+		}
 	},
+
 
 	onload:function(frm){
 		if (!frm.doc.booking_date) {
@@ -61,6 +60,7 @@ frappe.ui.form.on('Book Bill', {
 				}
 				
 				$.each(cur_frm.doc.payments, function(i, d){
+
 					fnl_ttl=fnl_ttl+d.payment*1
 					//console.log("JAI HIND",fnl_ttl)
 				}  )
