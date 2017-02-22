@@ -74,6 +74,7 @@ frappe.ui.form.on('Book Bill', {
 	onload:function(frm){
 		if (!frm.doc.booking_date) {
 			frm.set_value("booking_date", get_today());
+			
 		}
 
 	},
