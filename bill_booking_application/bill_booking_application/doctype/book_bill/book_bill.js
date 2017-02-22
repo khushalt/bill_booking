@@ -2,6 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Book Bill', {
+	//initiates before workflow
 	 validate: function(frm,cdt,cdn){
 
 	 	var bill_amnt=frm.doc.bill_amount
