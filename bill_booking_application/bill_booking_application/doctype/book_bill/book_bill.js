@@ -136,6 +136,7 @@ frappe.ui.form.on('Book Bill', {
 	// },
 
 		make_payment:function(frm){
+			
 			var d=new frappe.ui.Dialog({
 				fields: [
 					{
