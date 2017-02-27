@@ -15,13 +15,12 @@ class BookBill(Document):
 	def validate(self):
 		ls=[]
 		ls.append(self.payments)
-		print "#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",ls
-	# 	# users=get_user().get_roles("Administartor")
-		#print"$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+		# print "#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",ls
+	
 	 	
 	def on_submit(self):
 		#print"############################################",not self.balance_amount!=0,self.balance_amount
 		if self.balance_amount>0:
-			frappe.throw(_("Only Leave Applications with status 'Approved' can be submitted"))
+			frappe.throw(_("Only Balance Amount with 0 can be submitted"))
 		# else :
 		# 	return True

@@ -13,19 +13,19 @@ frappe.ui.form.on('Book Bill', {
 			$.each(frm.doc.payments,function(i,v){
 				if(!v.stat){
 					v.stat="Approved by Finance Manager"
-					// final_amount+=final_amount+v.payment*1
+					
 				}
 			})
 		}
+		
 		if(frm.doc.payments){
-		$.each(frm.doc.payments,function(i,v){
-			if(v.stat=="Approved by Finance Manager"){
-			final_amount=final_amount+v.payment
-			}
-		})
+			$.each(frm.doc.payments,function(i,v){
+				if(v.stat=="Approved by Finance Manager"){
+					final_amount=final_amount+v.payment
+				}
+			})
 		}
 
-	console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",final_amount)
 	frm.set_value("total",final_amount)
 	var get=frm.doc.grand_bill_total-final_amount
 	frm.set_value("balance_amount",get)
@@ -35,46 +35,12 @@ frappe.ui.form.on('Book Bill', {
 
 	refresh: function(frm) {
 		refresh_field("payments")
-		// var final_amount=0
-		// $.each(frm.doc.payments,function(i,v){
-		// 		if(v.stat=="Approved by Finance Manager"){
-					
-		// 			final_amount+=final_amount+v.payment*1
-		// 		}
-		// 	})
-		// frm.set_value("total",final_amount)
-
-		// 	if (frm.doc.bill_amount)
-		// 		frm.set_value("grand_bill_total",frm.doc.bill_amount)	
-		// 	if(frm.doc.payments){
-		// 		// console.log("HHHHHHHHHHHHH")
-		// 		var fnl_ttl=0
-		// 		$.each(cur_frm.doc.payments, function(i, d){
-		// 			fnl_ttl=fnl_ttl+d.payment*1
-		// 		} )
-		// 		frm.set_value("total",fnl_ttl)
-		// 		var grnd_ttl=frm.doc.bill_amount
-		// 		var total_=grnd_ttl-fnl_ttl
-		// 		// console.log("BALANCE AND AMOUNT",fnl_ttl,"grand total",grnd_ttl)
-		// 		frm.set_value("balance_amount",total_)
-		// 		if(frm.doc.total==grnd_ttl){
-		// 			frm.set_value("balance_amount","None")
-		// 			refresh_field("balance_amount");
-		// 			// console.log("BHAI AAJ HO JA TAYARTU")
-		// 		}
-		// 		if(frm.doc.balance_amount){
-		// 			var bllamnt=frm.doc.bill_amount
-		// 			frm.set_value("lance",frm.doc.balance_amount)
-		// 		}
-		// 		frm.refresh_fields();
-		// }
 	},
 
 
 	onload:function(frm){
 		if (!frm.doc.booking_date) {
 			frm.set_value("booking_date", get_today());
-			
 		}
 
 	},
@@ -85,59 +51,13 @@ frappe.ui.form.on('Book Bill', {
 		}
 	},
 
-	// payable_amount:function(frm,cdt,cdn){
-	// 	if(frm.doc.bill_amount && frm.doc.payment_type){
-	// 		if(frm.doc.balance_amount>0 || frm.doc.balance_amount==undefined){
-	// 			var row = locals[cdt][cdn];
-	// 			var fnl_ttl = 0;
-	// 			balance_value=frm.doc.bill_amount-frm.doc.payable_amount
-	// 			frm.set_value("balance_amount",balance_value) 
-	// 			if(frm.doc.payable_amount){
-	// 				var row = frappe.model.add_child(cur_frm.doc, "Payment Installment", "payments");
-	// 				row.payment=frm.doc.payable_amount
-	// 				row.date=frm.doc.booking_date
-	// 				row.remaining=frm.doc.balance_amount
-	// 				row.payment_type=frm.doc.payment_type
-	// 				refresh_field("payments");
-	// 			}
-				
-	// 			$.each(cur_frm.doc.payments, function(i, d){
+	payable_amount:function(frm,cdt,cdn){
+	
+	},
 
-	// 				fnl_ttl=fnl_ttl+d.payment*1
-	// 				//console.log("JAI HIND",fnl_ttl)
-	// 			}  )
-				
-	// 			temp=frm.doc.bill_amount-fnl_ttl
-	// 			frm.set_value("total",fnl_ttl) 
-	// 			if(temp){
-	// 				frm.set_value("balance_amount",temp) 
-	// 			}
-	// 			else {
-	// 				frm.set_value("balance_amount","0")
-	// 			}
-	// 			row.remaining=temp
-	// 			refresh_field("payments");
-	// 			refresh_field("payable_amount");
-	// 			frm.set_value("payable_amount","")
-	// 			cur_frm.refresh_fields()
-	// 		}
-	// 	else if (frm.doc.balance_amount==0 ){
-	// 		// console.log("BHAI PRINT HOJA")
-	// 		// msgprint(__("You Have Cleared Your All Outstanding Amounts."));
-	// 		//  frm.set_value("payable_amount","")
-	// 	}
+	make_payment:function(frm){
 
-	// }
-	// else {
-	// 	msgprint(__("select payment type first."));
-	// 	frm.set_value("payable_amount","")
-	// 	return false;
-	// }
-	// },
-
-		make_payment:function(frm){
-			
-			var d=new frappe.ui.Dialog({
+			var dialog =new frappe.ui.Dialog({
 				fields: [
 					{
 						"fieldtype":"Select","label":__("Payment Type"), "fieldname":"payment_type","options":["Cash","Cheque","Online","Others"],"reqd":1,
@@ -147,42 +67,53 @@ frappe.ui.form.on('Book Bill', {
 					{
 					"fieldtype":"Data","label":__("Payable Amount"), "fieldname":"payable_amount",
 						change:function(cdt,cdn){
+							console.log("#########")
 							if(frm.doc.balance_amount>0 || frm.doc.balance_amount==undefined){
-								
-								console.log("Har Har Mahadev 3")	
-								var fnl_ttl = 0;
-								balance_value=frm.doc.bill_amount-cur_dialog.get_value("payable_amount")
-								frm.set_value("balance_amount",balance_value)
-								
-								if(cur_dialog.get_value("payable_amount")){
+								// var paymt=cur_dialog.get_value("payable_amount")
+								paymt = dialog.fields_dict.payable_amount.get_value()
+								payment_type = dialog.fields_dict.payment_type.get_value()
+								console.log(paymt <= frm.doc.bill_amount)
+								 if(cint(paymt) <= cint(frm.doc.bill_amount)){
 									
-									var row = frappe.model.add_child(cur_frm.doc, "Payment Installment", "payments");
-									row.payment=cur_dialog.get_value("payable_amount")
-									row.date=frm.doc.booking_date
-									row.remaining=frm.doc.balance_amount
-									row.payment_type=cur_dialog.get_value("payment_type")
-									refresh_field("payments");	
-								} 
+									var fnl_ttl = 0;
+									balance_value=frm.doc.bill_amount-paymt
+									frm.set_value("balance_amount",balance_value)
+									
+									if(paymt){
+										
+										var row = frappe.model.add_child(cur_frm.doc, "Payment Installment", "payments");
+										row.payment=paymt
+										row.date=frm.doc.booking_date
+										row.remaining=frm.doc.balance_amount
+										row.payment_type=payment_type
+										refresh_field("payments");	
+									} 
 
-								$.each(cur_frm.doc.payments, function(i, d){
-									fnl_ttl=fnl_ttl+d.payment*1
-									console.log("JAI HIND",fnl_ttl)
-								})
+									$.each(cur_frm.doc.payments, function(i, d){
+										fnl_ttl=fnl_ttl+d.payment*1
+										
+									})
 
-	 							temp=frm.doc.bill_amount-fnl_ttl
-								frm.set_value("total",fnl_ttl) 
-								console.log("AAAAAAAA",temp)
-	 							if(temp){
-	 								frm.set_value("balance_amount",temp) 
- 								}
+		 							temp=frm.doc.bill_amount-fnl_ttl
+									frm.set_value("total",fnl_ttl) 
+									
+		 							if(temp){
+		 								frm.set_value("balance_amount",temp) 
+	 								}
 
- 								// row.remaining=temp
-								refresh_field("payments");
-								cur_frm.refresh_fields()
+	 								// row.remaining=temp
+									refresh_field("payments");
+									cur_frm.refresh_fields()
+								}
+								else {
+								msgprint(__("Amount cannot be greater than bill amount."));
+								 throw "cannot";
+								
+							}
 							}
 
 							else if (frm.doc.balance_amount==0 ){
-	 							console.log("BHAI PRINT HOJA")
+	 							
 								msgprint(__("You Have Cleared Your All Outstanding Amounts."));
 							  	frm.set_value("payable_amount","")
 							}	
@@ -190,10 +121,8 @@ frappe.ui.form.on('Book Bill', {
 					}
 				]
 			})
-			d.show();
+			dialog.show();
 		}
-
-
 });
 
 

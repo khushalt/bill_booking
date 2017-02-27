@@ -28,6 +28,7 @@ def get_data(filters):
 	
 			
 def get_condition(filters_):
+
 	if filters_:
 		if filters_=="Payment Done":
 			return "balance_amount=0"
